@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using CreatingMobileAppsSamples.Views;
+using Prism.Events;
+using CreatingMobileAppsSamples.Services;
 
 namespace CreatingMobileAppsSamples.ViewModels
 {
@@ -21,13 +23,20 @@ namespace CreatingMobileAppsSamples.ViewModels
 		}
 
 		INavigationService _navigationService;
+		readonly IEventAggregator _eventAggregator;
 
-		public MainPageViewModel(INavigationService navigationService)
+		public MainPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator)
 		{
 			Debug.WriteLine($"{this.GetType().Name}.{nameof(MainPageViewModel)}:  ctor");
 
+			_eventAggregator = eventAggregator;
 			_navigationService = navigationService;
+
 			NavToVerticalOptionsCommand = new DelegateCommand(OnNavToVerticalOptions);
+
+			Title = "DEMOS";
+
+			SetupSubscriptions();
 		}
 
 		~MainPageViewModel()
@@ -47,7 +56,22 @@ namespace CreatingMobileAppsSamples.ViewModels
 
 		void OnNavToVerticalOptions()
 		{
-			_navigationService.NavigateAsync(nameof(VerticalOptions));
+			_navigationService.NavigateAsync(nameof(VerticalOptionsPage));
+		}
+
+		void SetupSubscriptions()
+		{
+			_eventAggregator.GetEvent<PageAppearingEvent>().Subscribe(OnPageAppearing, ThreadOption.UIThread, true, ShouldHandlePageAppearingEvent);
+		}
+
+		bool ShouldHandlePageAppearingEvent(string pageName)
+		{
+			return string.Equals(Constants.MainPageName, pageName, StringComparison.OrdinalIgnoreCase);
+		}
+
+		void OnPageAppearing(string pageName)
+		{
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(OnPageAppearing)}:  {pageName}");
 		}
 	}
 }

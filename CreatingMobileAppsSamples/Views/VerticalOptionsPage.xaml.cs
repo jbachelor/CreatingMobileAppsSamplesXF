@@ -5,21 +5,32 @@ using Xamarin.Forms;
 using System.Diagnostics;
 using System;
 using Prism.Navigation;
+using CreatingMobileAppsSamples.Services;
 
 namespace CreatingMobileAppsSamples.Views
 {
-	public partial class VerticalOptions : ContentPage
+	public partial class VerticalOptionsPage : ContentPage
 	{
-		public VerticalOptions()
+		public VerticalOptionsPage()
 		{
-			Debug.WriteLine($"{this.GetType().Name}.{nameof(VerticalOptions)}:  ctor");
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(VerticalOptionsPage)}:  ctor");
 			InitializeComponent();
 			SetupView();
 		}
 
-		~VerticalOptions()
+		~VerticalOptionsPage()
 		{
-			Debug.WriteLine($"{this.GetType().Name}.{nameof(VerticalOptions)}:  Destructor");
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(VerticalOptionsPage)}:  Destructor");
+		}
+
+		void OnPageAppearing(object sender, System.EventArgs e)
+		{
+			Globals.GlobalEventAggregator.GetEvent<PageAppearingEvent>().Publish(this.GetType().Name);
+		}
+
+		void OnPageDisappearing(object sender, System.EventArgs e)
+		{
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(OnPageDisappearing)}");
 		}
 
 		void SetupView()

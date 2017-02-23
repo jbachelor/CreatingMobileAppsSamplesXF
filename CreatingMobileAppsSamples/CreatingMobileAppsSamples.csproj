@@ -36,14 +36,17 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="Views\VerticalOptions.xaml.cs">
-      <DependentUpon>VerticalOptions.xaml</DependentUpon>
+    <Compile Include="Views\VerticalOptionsPage.xaml.cs">
+      <DependentUpon>VerticalOptionsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\VerticalOptionsViewModel.cs" />
+    <Compile Include="ViewModels\VerticalOptionsPageViewModel.cs" />
     <Compile Include="Views\RootNavPage.xaml.cs">
       <DependentUpon>RootNavPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\RootNavPageViewModel.cs" />
+    <Compile Include="Services\Events.cs" />
+    <Compile Include="Services\Constants.cs" />
+    <Compile Include="Services\Globals.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -52,7 +55,7 @@
     <EmbeddedResource Include="Views\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\VerticalOptions.xaml">
+    <EmbeddedResource Include="Views\VerticalOptionsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\RootNavPage.xaml">
@@ -87,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

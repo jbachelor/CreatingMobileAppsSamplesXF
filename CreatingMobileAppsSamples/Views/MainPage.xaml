@@ -5,7 +5,9 @@
 	xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
 	prism:ViewModelLocator.AutowireViewModel="True"
 	x:Class="CreatingMobileAppsSamples.Views.MainPage"
-	Title="MainPage">
+	Title="{Binding Title}"
+	Appearing="OnPageAppearing"
+	Disappearing="OnPageDisappearing">
 	<StackLayout
 		HorizontalOptions="Center"
 		VerticalOptions="Center">

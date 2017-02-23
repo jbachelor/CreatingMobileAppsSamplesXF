@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using System.Diagnostics;
+using Xamarin.Forms;
+using CreatingMobileAppsSamples.Services;
 
 namespace CreatingMobileAppsSamples.Views
 {
@@ -6,7 +8,23 @@ namespace CreatingMobileAppsSamples.Views
 	{
 		public MainPage()
 		{
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(MainPage)}:  ctor");
 			InitializeComponent();
+		}
+
+		~MainPage()
+		{
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(MainPage)}:  Destructor");
+		}
+
+		void OnPageAppearing(object sender, System.EventArgs e)
+		{
+			Globals.GlobalEventAggregator.GetEvent<PageAppearingEvent>().Publish(this.GetType().Name);
+		}
+
+		void OnPageDisappearing(object sender, System.EventArgs e)
+		{
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(OnPageDisappearing)}");
 		}
 	}
 }
