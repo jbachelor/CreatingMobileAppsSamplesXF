@@ -11,12 +11,14 @@ namespace CreatingMobileAppsSamples
 		{
 			InitializeComponent();
 
-			NavigationService.NavigateAsync(nameof(MainPage));
+			NavigationService.NavigateAsync($"{nameof(RootNavPage)}/{nameof(MainPage)}");
 		}
 
 		protected override void RegisterTypes()
 		{
+			Container.RegisterTypeForNavigation<RootNavPage>();
 			Container.RegisterTypeForNavigation<MainPage>();
+			Container.RegisterTypeForNavigation<VerticalOptions>();
 		}
 	}
 }

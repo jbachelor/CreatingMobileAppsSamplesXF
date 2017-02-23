@@ -9,7 +9,10 @@
 	<StackLayout
 		HorizontalOptions="Center"
 		VerticalOptions="Center">
-		<Label
-			Text="{Binding Title}" />
+		<Button
+			x:Name="VerticalOptionsButton"
+			AutomationId="VerticalOptionsButton"
+			Text="Vertical Options Demo"
+			Command="{Binding NavToVerticalOptionsCommand}" />
 	</StackLayout>
 </ContentPage>

@@ -5,11 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using CreatingMobileAppsSamples.Views;
 
 namespace CreatingMobileAppsSamples.ViewModels
 {
 	public class MainPageViewModel : BindableBase, INavigationAware
 	{
+		public DelegateCommand NavToVerticalOptionsCommand { get; set; }
+
 		private string _title;
 		public string Title
 		{
@@ -17,11 +20,14 @@ namespace CreatingMobileAppsSamples.ViewModels
 			set { SetProperty(ref _title, value); }
 		}
 
-		public MainPageViewModel()
+		INavigationService _navigationService;
+
+		public MainPageViewModel(INavigationService navigationService)
 		{
 			Debug.WriteLine($"{this.GetType().Name}.{nameof(MainPageViewModel)}:  ctor");
 
-			Title = "I'm the main page!";
+			_navigationService = navigationService;
+			NavToVerticalOptionsCommand = new DelegateCommand(OnNavToVerticalOptions);
 		}
 
 		~MainPageViewModel()
@@ -37,6 +43,11 @@ namespace CreatingMobileAppsSamples.ViewModels
 		public void OnNavigatedTo(NavigationParameters parameters)
 		{
 			Debug.WriteLine($"{this.GetType().Name}.{nameof(OnNavigatedTo)}");
+		}
+
+		void OnNavToVerticalOptions()
+		{
+			_navigationService.NavigateAsync(nameof(VerticalOptions));
 		}
 	}
 }
