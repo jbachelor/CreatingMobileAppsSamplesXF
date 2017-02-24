@@ -36,7 +36,7 @@ namespace CreatingMobileAppsSamples.ViewModels
 
 			Title = "DEMOS";
 
-			SetupSubscriptions();
+			SubscribeToEvents();
 		}
 
 		~MainPageViewModel()
@@ -59,12 +59,24 @@ namespace CreatingMobileAppsSamples.ViewModels
 			_navigationService.NavigateAsync(nameof(VerticalOptionsPage));
 		}
 
-		void SetupSubscriptions()
+		void SubscribeToEvents()
 		{
-			_eventAggregator.GetEvent<PageAppearingEvent>().Subscribe(OnPageAppearing, ThreadOption.UIThread, true, ShouldHandlePageAppearingEvent);
+			UnsubscribeFromEvents();
+
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(SubscribeToEvents)}");
+			_eventAggregator.GetEvent<PageAppearingEvent>().Subscribe(OnPageAppearing, ThreadOption.UIThread, true, ShouldHandlePageAppearingAndDisappearingEvents);
+			_eventAggregator.GetEvent<PageDisappearingEvent>().Subscribe(OnPageDisappearing, ThreadOption.UIThread, true, ShouldHandlePageAppearingAndDisappearingEvents);
 		}
 
-		bool ShouldHandlePageAppearingEvent(string pageName)
+		void UnsubscribeFromEvents()
+		{
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(UnsubscribeFromEvents)}");
+
+			_eventAggregator.GetEvent<PageAppearingEvent>().Unsubscribe(null);
+			_eventAggregator.GetEvent<PageDisappearingEvent>().Unsubscribe(null);
+		}
+
+		bool ShouldHandlePageAppearingAndDisappearingEvents(string pageName)
 		{
 			return string.Equals(Constants.MainPageName, pageName, StringComparison.OrdinalIgnoreCase);
 		}
@@ -72,6 +84,13 @@ namespace CreatingMobileAppsSamples.ViewModels
 		void OnPageAppearing(string pageName)
 		{
 			Debug.WriteLine($"{this.GetType().Name}.{nameof(OnPageAppearing)}:  {pageName}");
+			SubscribeToEvents();
+		}
+
+		void OnPageDisappearing(string pageName)
+		{
+			Debug.WriteLine($"{this.GetType().Name}.{nameof(OnPageDisappearing)}:  {pageName}");
+			UnsubscribeFromEvents();
 		}
 	}
 }

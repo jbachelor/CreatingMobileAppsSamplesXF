@@ -24,7 +24,7 @@ namespace CreatingMobileAppsSamples.Views
 
 		void OnPageDisappearing(object sender, System.EventArgs e)
 		{
-			Debug.WriteLine($"{this.GetType().Name}.{nameof(OnPageDisappearing)}");
+			Globals.GlobalEventAggregator.GetEvent<PageDisappearingEvent>().Publish(this.GetType().Name);
 		}
 	}
 }
