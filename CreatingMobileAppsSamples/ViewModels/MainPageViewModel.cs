@@ -22,6 +22,24 @@ namespace CreatingMobileAppsSamples.ViewModels
 			set { SetProperty(ref _title, value); }
 		}
 
+		private string _shakeButtonText;
+		public string ShakeButtonText
+		{
+			get { return _shakeButtonText; }
+			set { SetProperty(ref _shakeButtonText, value); }
+		}
+
+		private bool _shouldMonitorForShakeGesture;
+		public bool ShouldMonitorForShakeGesture
+		{
+			get { return _shouldMonitorForShakeGesture; }
+			set
+			{
+				SetProperty(ref _shouldMonitorForShakeGesture, value);
+				OnShouldMonitorForShakeGestureChanged();
+			}
+		}
+
 		INavigationService _navigationService;
 		readonly IEventAggregator _eventAggregator;
 
@@ -59,11 +77,17 @@ namespace CreatingMobileAppsSamples.ViewModels
 			_navigationService.NavigateAsync(nameof(VerticalOptionsPage));
 		}
 
+		void OnShouldMonitorForShakeGestureChanged()
+		{
+			_eventAggregator.GetEvent<AllowShakeDetectionEvent>().Publish(ShouldMonitorForShakeGesture);
+		}
+
 		void SubscribeToEvents()
 		{
 			UnsubscribeFromEvents();
 
 			Debug.WriteLine($"{this.GetType().Name}.{nameof(SubscribeToEvents)}");
+
 			_eventAggregator.GetEvent<PageAppearingEvent>().Subscribe(OnPageAppearing, ThreadOption.UIThread, true, ShouldHandlePageAppearingAndDisappearingEvents);
 			_eventAggregator.GetEvent<PageDisappearingEvent>().Subscribe(OnPageDisappearing, ThreadOption.UIThread, true, ShouldHandlePageAppearingAndDisappearingEvents);
 		}
